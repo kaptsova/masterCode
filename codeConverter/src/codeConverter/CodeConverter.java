@@ -2,45 +2,91 @@ package codeConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import asmLine.AsmLine;
+import asmLine.OpCode;
+import asmLine.ProgramCode;
+import commonTypes.ApplicationType;
+import commonTypes.PrecisionType;
+import fileSystem.FileSystem;
 
 public class CodeConverter {
+	
+	public boolean errorOccured = false;
+	private ApplicationType appType = ApplicationType.consoleApplication;
+	//TODO Implement method to get precision type
+	protected PrecisionType prType = PrecisionType.doublePrecision;
 	
 	
 	public static void main(String[] args)
 	{
-		// Paths to program code and to the list of available operation codes
-		final String programCodePath = "D:\\textFiles\\simple.txt";
-		final String opCodesDblPath = "D:\\textFiles\\opCodes_dbl.txt";
-		final String opCodesSglPath = "D:\\textFiles\\opCodes_sgl.txt";
-				
-		FilePath.initializeFilePathes();
+		CodeConverter codeConverter = new CodeConverter();
+		codeConverter.start();
+	}
+	
+	public void start(){
+		// initialize file system
+		FileSystem fileSystem = FileSystem.getInstance(appType);
+		fileSystem.initializeFileSystem();
+		fileSystem.toString();
 		
-		ArrayList<AssemblerLine> programCodeList = new ArrayList<AssemblerLine>();
-		readProgramCode(programCodePath, programCodeList);
+		executeProgramCode(fileSystem);
+		
+	}
+
+	private void executeProgramCode(FileSystem fileSystem) {
+		int numberOfFiles = fileSystem.getNumberOfFiles();
+		ArrayList<String> filePaths = fileSystem.getInputFilePathList();
+		ProgramCode pcode = new ProgramCode();
+		pcode.readOperationCodes(fileSystem.getOpCodeFilePath());
+		
+		for (int i = 0; i < numberOfFiles; i++){
+			
+			String programCodePath = filePaths.get(i);			
+			pcode.readProgramCode(programCodePath);
+			
+			pcode.printAllInfo();
+			
+			System.out.println("______________________________");
+		}
+	}
+	
+	public void old_Start(){
+		FileSystem fs = FileSystem.getInstance(ApplicationType.consoleApplication);
+		fs.initializeFileSystem();
+		fs.toString();
+		
+		
+		
+		/*ArrayList<AsmLine> programCodeList = new ArrayList<AsmLine>();
+		readProgramCode(programCodePathList.get(0), programCodeList);
 		
 		ArrayList<OpCode> opCodeList = new ArrayList<OpCode>();
-		readOperationCodes(opCodesDblPath, opCodeList);
+		String opCodePath = FilePath.getOpCodeFilePath();
+		readOperationCodes(opCodePath, opCodeList);
 		
 		if (checkMnemonics(programCodeList, opCodeList))
 			Device.println("Yeah");
 		else 
 			Device.println("No");
 		
+		
+		for (AsmLine e: programCodeList)
+		{
+			System.out.println(e.getmOperator()+ " " + e.checkAssemblerLine(opCodeList));
+		}*/
 	}
 	
 	
-	private static boolean checkMnemonics(ArrayList<AssemblerLine> programCodeList, ArrayList<OpCode> opCodeList)
+	private static boolean checkMnemonics(ArrayList<AsmLine> programCodeList, ArrayList<OpCode> opCodeList)
 	{
 		boolean status = false;
 		String operator = "";
 		for (int i = 0; i < programCodeList.size(); i++)
 		{
 			status = false;
-			AssemblerLine assemblerLine = programCodeList.get(i);
-			operator = assemblerLine.getmOperator();
+			AsmLine AsmLine = programCodeList.get(i);
+			operator = AsmLine.getmOperator();
 			
 			if (operator.equalsIgnoreCase("dq"))
 				status = true;
@@ -71,40 +117,9 @@ public class CodeConverter {
 		return status;
 	}
 
-	private static void readOperationCodes(final String opCodesPath, ArrayList<OpCode> opCodeList) 
-	{
-		HashMap <Integer, String> opCodeStrings = new HashMap <Integer, String>();
-		opCodeStrings = Parser.readFromFile(opCodesPath);
-		
-		for (Map.Entry<Integer, String> e : opCodeStrings.entrySet())
-        {
-            System.out.println(e.getKey() + " - " + e.getValue());
-            
-        }
-		
-		for (Map.Entry<Integer, String> e : opCodeStrings.entrySet())
-        {
-	    	OpCode instance = new OpCode(e.getValue());
-	    	opCodeList.add(instance);	    	
-	    }
-	}
+	
 
-	private static void readProgramCode(final String programCodePath, ArrayList<AssemblerLine> programCodeList) {
-		// Read the program code from file and fill the 
-		HashMap <Integer, String> programCodeStrings = new HashMap <Integer, String>();
-		programCodeStrings = Parser.readFromFile(programCodePath);
-		
-		for (Map.Entry<Integer, String> e : programCodeStrings.entrySet())
-        {
-			System.out.println(e.getKey() + " - " + e.getValue());	
-        }
-				 
-		for (Map.Entry<Integer, String> e : programCodeStrings.entrySet())
-        {
-	    	AssemblerLine instance = new AssemblerLine(e.getValue(), e.getKey());
-	    	programCodeList.add(instance);	    	
-	    }
-	}
+	
 	
 
 }

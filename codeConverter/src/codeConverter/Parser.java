@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import ErrorHandler.ErrorMessage;
+import ErrorHandler.ErrorType;
+
 public class Parser {
 		
 	/*	Read data from input file. Divide the data into lines of code
@@ -17,21 +20,29 @@ public class Parser {
 		try 
 		{
 			File inputFile = new File(path);
-			Scanner sc = new Scanner(inputFile);
+			if (inputFile.exists())
+			{
+				Scanner sc = new Scanner(inputFile);
 			
-			while ( sc.hasNextLine())
-			{				
-				String nextLine = "";				
-				// Skip the empty lines and comment lines
-				while (nextLine.isEmpty() && sc.hasNextLine())
-				{
-					nextLine = eraseComments(sc.nextLine());
-					index++;
-				}
-				if (!nextLine.isEmpty())
+				while ( sc.hasNextLine())
+				{				
+					String nextLine = "";				
+					// Skip the empty lines and comment lines
+					while (nextLine.isEmpty() && sc.hasNextLine())
+					{
+						nextLine = eraseComments(sc.nextLine());
+						index++;
+					}
+					if (!nextLine.isEmpty())
 					linesOfCode.put(index, nextLine);
+				}
+				sc.close();
 			}
-			sc.close();
+			else 
+			{
+				ErrorMessage err = new ErrorMessage(ErrorType.opCodeFileNotFoundError);
+				err.print();
+			}
 		} 
 		catch (FileNotFoundException e) 
 		{
@@ -61,7 +72,7 @@ public class Parser {
 	public static void main(String[] args)
 	{
 		HashMap <Integer, String> linesOfCode = new HashMap <Integer, String>(); 
-		String path = "D:\\textFiles\\test.txt";
+		String path = "D:\\textFiles\\testss.txt";
 		
 		linesOfCode =readFromFile(path);
 		

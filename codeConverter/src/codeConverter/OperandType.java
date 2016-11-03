@@ -4,5 +4,6 @@ public enum OperandType {
 	illegalOperand,
 	variableOperand, 
 	hexadecimalOperand,
+	portIndexOperand,
 	delimiterOperand
 }
