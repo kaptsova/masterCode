@@ -1,0 +1,7 @@
+Error 1 of 1 (inputError) occured
+:	line 23 of file /nata.txt
+	Details: It's error
+Error 2 of 2 (outputError) occured
+:	line 57 of file /slava.txt
+Error 3 of 3 (wrongMnemonicError) occured
+:	line 59 of file /slava.txt

@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import ErrorHandler.ErrorMessage;
-import ErrorHandler.ErrorType;
+import errorHandler.ErrorMessage;
+import errorHandler.ErrorType;
 
 public class Parser {
 		
@@ -40,7 +40,7 @@ public class Parser {
 			}
 			else 
 			{
-				ErrorMessage err = new ErrorMessage(ErrorType.opCodeFileNotFoundError);
+				ErrorMessage err = new ErrorMessage(ErrorType.inputFileNotFoundError);
 				err.print();
 			}
 		} 
