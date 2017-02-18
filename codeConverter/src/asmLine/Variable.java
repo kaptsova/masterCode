@@ -13,7 +13,7 @@ public class Variable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void fillLineIndexList(ArrayList<ExecAsmLine> executableCode){
+	public void fillLineIndexList(ArrayList<ExecutableLine> executableCode){
 		System.out.println(variableName +  ": Fill line index list");
 	}
 	

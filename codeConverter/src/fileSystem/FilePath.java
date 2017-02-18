@@ -1,6 +1,5 @@
 package fileSystem;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FilePath {
@@ -12,9 +11,7 @@ public class FilePath {
 		return firstFileName;
 	}
 
-
-	protected String getFilePath(boolean isFirst)
-	{
+	protected String getFilePath(boolean isFirst){
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the name of an ASM-file you want to work with (without .txt): ");
 		String fileName = sc.nextLine();
@@ -26,26 +23,15 @@ public class FilePath {
 	}
 	
 
-	static String getRelativePath(String fileName)
-	{		
+	static String getRelativePath(String fileName){		
 		// Add .txt
 		String filePath = fileName.concat(".txt");	
 		String relativePath = directoryPath.concat(filePath);
 		return relativePath;
 	}
-
-	
-	private static boolean isFilePathCorrect(String filePath) 
-	{
-		boolean isCorrect = true;
-		
-		
-		return isCorrect;
-	}
 	
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		System.out.println("FilePath class begins\n");
 	
 	}

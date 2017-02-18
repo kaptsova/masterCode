@@ -1,0 +1,14 @@
+Error 1 of 1 (wrongOperandTypeError) occured
+:	line 10 of file tests\addmul.txt
+Error 2 of 2 (wrongOperandTypeError) occured
+:	line 10 of file tests\addmul.txt
+Error 3 of 3 (wrongOperandTypeError) occured
+:	line 10 of file tests\addmul.txt
+Error 4 of 4 (wrongOpIn1TypeError) occured
+:	line 10 of file tests\addmul.txt
+Error 5 of 5 (wrongOperandTypeError) occured
+:	line 11 of file tests\addmul.txt
+Error 6 of 6 (wrongOperandTypeError) occured
+:	line 11 of file tests\addmul.txt
+Error 7 of 7 (wrongOpIn1TypeError) occured
+:	line 11 of file tests\addmul.txt

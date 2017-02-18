@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import commonTypes.ApplicationType;
 import commonTypes.PrecisionType;
+import errorHandler.ErrorMessage;
 
 public abstract class FileSystem {
 
@@ -23,6 +24,9 @@ public abstract class FileSystem {
 	}
 	public String getProgMemoryFilePath() {
 		return progMemoryFilePath;
+	}	
+	public String getErrorFilePath() {
+		return errorFilePath;
 	}
 	public String getOpCodeFilePath() {
 		return opCodeFilePath;
@@ -40,6 +44,7 @@ public abstract class FileSystem {
 
 	protected String dataMemoryFilePath = "";
 	protected String progMemoryFilePath = "";
+	protected String errorFilePath = "";
 	protected String opCodeFilePath = "";
 	protected String infoFilePath = "";
 	
@@ -84,6 +89,7 @@ public abstract class FileSystem {
 		setInputFilePathList();
 		createOutputFiles(firstFileName);
 		setOpCodeFilePath(PrecisionType.doublePrecision);
+		ErrorMessage.setErrorFilePath(getErrorFilePath());
 	}
 	
 	private void createOutputFiles(String fileName) 
@@ -91,26 +97,34 @@ public abstract class FileSystem {
 		String dataMemoryFileName = fileName.concat("-data");
 		String progMemoryFileName = fileName.concat("-prog");
 		String infoFileName = fileName.concat("-info");
+		String errorFileName = fileName.concat("-error");
 		
 		dataMemoryFilePath = FilePath.getRelativePath(dataMemoryFileName);
 		progMemoryFilePath = FilePath.getRelativePath(progMemoryFileName);	
 		infoFilePath = FilePath.getRelativePath(infoFileName);	
+		errorFilePath = FilePath.getRelativePath(errorFileName);	
 	}
 	
-	public String toString(){
-		
+	public String toString(){				
+		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < inputFilePathList.size(); i++)
 		{
-			System.out.println("File " + i + ": " + inputFilePathList.get(i));
+			/*System.out.println("File " + i + ": " + inputFilePathList.get(i));*/
+			str.append("File " + i + ": " + inputFilePathList.get(i)+ "\n");
 		}
-		System.out.println("Data memory file path: " + dataMemoryFilePath );
-		System.out.println("Program memory file path: " + progMemoryFilePath);
-		System.out.println("Common info file path: " + infoFilePath);
 		
-		System.out.println("OpCode file path: " + opCodeFilePath);
-		System.out.println("\nFilePath class ends");	
-		return "";
-		
+		str.append("Data memory file path: " + dataMemoryFilePath + "\n");
+		str.append("Program memory file path: " + progMemoryFilePath + "\n");
+		str.append("Common info file path: " + infoFilePath + "\n");
+		str.append("Error file path: " + errorFilePath + "\n");
+		str.append("OpCode file path: " + opCodeFilePath + "\n");
+		//System.out.println(str.toString());
+
+		return str.toString();		
+	}
+	
+	public void printInfo(){
+		System.out.println(toString());
 	}
 	
 	private String setOpCodeFilePath(PrecisionType prType){

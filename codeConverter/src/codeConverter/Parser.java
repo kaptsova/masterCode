@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import ErrorHandler.ErrorMessage;
-import ErrorHandler.ErrorType;
+import errorHandler.ErrorMessage;
+import errorHandler.ErrorType;
 
 public class Parser {
 		
@@ -40,7 +40,7 @@ public class Parser {
 			}
 			else 
 			{
-				ErrorMessage err = new ErrorMessage(ErrorType.opCodeFileNotFoundError);
+				ErrorMessage err = new ErrorMessage(ErrorType.inputFileNotFoundError);
 				err.print();
 			}
 		} 
@@ -62,9 +62,10 @@ public class Parser {
 		inputLine = inputLine.trim();
 		
 		int index = inputLine.indexOf(';');
-		if (index >= 0)
-			return inputLine.substring(0,index);
-
+		if (index >= 0) {
+			inputLine = inputLine.substring(0,index);
+			inputLine = inputLine.trim();
+		}
 		return inputLine;
 	}
 
@@ -72,7 +73,7 @@ public class Parser {
 	public static void main(String[] args)
 	{
 		HashMap <Integer, String> linesOfCode = new HashMap <Integer, String>(); 
-		String path = "D:\\textFiles\\testss.txt";
+		String path = "tests\\dependent.txt";
 		
 		linesOfCode =readFromFile(path);
 		

@@ -1,7 +1,7 @@
 package asmLine;
 
-import codeConverter.OperandType;
 import commonTypes.CommandType;
+import operand.OperandType;
 
 //TODO: implement Iterable <OpCode> interface 
 public class OpCode {
@@ -58,8 +58,8 @@ public class OpCode {
 		wbCommand = initArray[1];
 		exCommand = initArray[2];
 		/* For all integer members of opCode class - convert from char */
-		aluDelay = Character.getNumericValue(initArray[3].charAt(0));
-		pipeDelay = Character.getNumericValue(initArray[4].charAt(0));
+		aluDelay = Integer.parseInt(initArray[3]);
+		pipeDelay = Integer.parseInt(initArray[4]);
 		/* For all char members of opCode class - convert from string */
 		opIn1TypeChar = initArray[5].charAt(0);
 		opIn2TypeChar = initArray[6].charAt(0);

@@ -3,9 +3,9 @@ package asmLine;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import codeConverter.OperandType;
 import commonTypes.CommandType;
 import commonTypes.PrecisionType;
+import operand.OperandType;
 
 //TODO use fabrics to create either dq or regular asm line
 //TODO toString - formatter s.424 thinking in Java
@@ -73,7 +73,7 @@ public class AsmLine {
 	}
 	
 	// Simple fabric to generate asmLines
-	public static AsmLine createAsmLine(String initString, int initIndex)
+	public static AsmLine createAsmLine(String initString, int initIndex, PrecisionType precType)
 	{
 		AsmLine asmLine = new AsmLine();
 		String dqMnemonic = "dq";
@@ -81,13 +81,14 @@ public class AsmLine {
 		
 		if (asmLine.mOperator.equalsIgnoreCase(dqMnemonic))
 		{
-			asmLine = new DqAsmLine(initString, initIndex);
+			asmLine = new DeclarationLine(initString, initIndex);
 			asmLine.cmdType = CommandType.dqCommand;
 		}
 		else 
 		{
-			asmLine = new ExecAsmLine(initString, initIndex);
+			asmLine = new ExecutableLine(initString, initIndex);
 		}
+		asmLine.precisionType = precType;
 		
 		return asmLine;
 	}
@@ -101,7 +102,7 @@ public class AsmLine {
 			mOperandIn2 = initArray[2];
 			//TODO add check to ensure mOperandOut doesn't contain spaces
 			if (initArray[3].contains(" ") == false)
-				mOperandOut = initArray[3];
+				mOperandOut = initArray[3].trim();
 			else 
 			{
 				System.out.println("Wrong number of operands");
@@ -127,7 +128,14 @@ public class AsmLine {
 		
 	protected boolean isVariable(String operand)
 	{
-		Pattern p = Pattern.compile("^[a-z]+");
+		Pattern p = Pattern.compile("^[A-Za-z_]+");
+		Matcher m = p.matcher(operand);
+		
+		return m.matches();
+	}
+	
+	protected boolean isPortIndex(String operand){
+		Pattern p = Pattern.compile("[0-9]+");
 		Matcher m = p.matcher(operand);
 		
 		return m.matches();
@@ -176,8 +184,6 @@ public class AsmLine {
 		String asmLineString = index + "\t" + mOperator + " " + mOperandIn1 + " " + mOperandIn2 + " " + mOperandOut + "\n";
 		return asmLineString;
 	}
-	
-	
 	
 	public static void main(String[] args)
 	{
